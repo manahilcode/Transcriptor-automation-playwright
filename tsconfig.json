@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",             // Latest JavaScript features
+    "module": "commonjs",           // Module system for Node.js
+    "moduleResolution": "node",     // Helps resolve modules like node_modules
+    "outDir": "dist",               // Compiled JavaScript output
+    "rootDir": ".",                 // Start looking from project root
+    "strict": true,                 // Enable strict type-checking
+    "esModuleInterop": true,        // Allows default import of commonjs modules
+    "types": ["node", "playwright"] // Add Playwright & Node.js types
+  },
+  "include": ["tests"]              // Only compile test files
+}
