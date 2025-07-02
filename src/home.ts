@@ -16,6 +16,9 @@ export default class Home {
   }
 
 
+  
+
+
   public async scroll() {
     await test.step(`scroll slowly to the bottom of the page`, async () => {
   await this.page.evaluate(async () => {
