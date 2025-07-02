@@ -22,7 +22,6 @@ test.describe("Full flow", () => {
     const transcription = new MyTranscription(page);
     await transcription.menu();
     await transcription.folder();
-    
     await transcription.bookmark();
   });
 });
