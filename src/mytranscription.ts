@@ -4,12 +4,21 @@ import { selectors } from "../utils/selectors/mytranscription-selector";
 export default class mytranscription {
   constructor(private page: Page) {}
 
+  /**********************************************************************
+  * Menu Navigation
+  * Description: This function clicks on the My Transcription menu.
+  ***********************************************************************/
   public async menu() {
     await test.step(`click on menu`, async () => {
       await this.page.locator(selectors.mytranscription).click();
     });
   }
 
+  /**********************************************************************
+  * Folder Management
+  * Description: This function manages folders by creating, renaming,
+  * and deleting a folder. It handles duplicate folder names as well.
+  ***********************************************************************/
   public async folder() {
     await test.step(`manage folder`, async () => {
       await this.page.locator(selectors.folders).click();
@@ -64,19 +73,23 @@ export default class mytranscription {
         await this.page.locator(selectors.menubutton).click();
         await this.page.locator(selectors.delete).click();
         await this.page.locator(selectors.deletebutton).click();
-            await this.page.waitForTimeout(500);
+        await this.page.waitForTimeout(500);
       }
     });
   }
 
+  /**********************************************************************
+  * Bookmark Transcription
+  * Description: This function bookmarks a transcription, verifies it
+  * in the bookmark tab, and then returns to the all transcription view.
+  ***********************************************************************/
   public async bookmark() {
     await test.step(`bookmark transcriptions`, async () => {
       await this.page.locator(selectors.alltarnscription).click();
-
       await this.page.locator(selectors.bookmark).click();
       await this.page.locator(selectors.bookmarktab).click();
-      await this.page.waitForTimeout(500); // waits 2 seconds
-
+      await this.page.waitForTimeout(500);
+      await this.page.locator(selectors.alltarnscription).click();
     });
   }
 }
