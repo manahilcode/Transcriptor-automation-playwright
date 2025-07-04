@@ -46,11 +46,10 @@ jobs:
       - name: Send Discord Notification
         if: always()
         run: |
-          # Parse Playwright JSON report
           if [ -f playwright-report/results.json ]; then
-            TOTAL=$(jq '.suites | map(.specs) | flatten | length' playwright-report/results.json)
-            PASSED=$(jq '[.suites | map(.specs) | flatten[] | select(.tests[].results[].status=="passed")] | length' playwright-report/results.json)
-            FAILED=$(jq '[.suites | map(.specs) | flatten[] | select(.tests[].results[].status=="failed")] | length' playwright-report/results.json)
+            TOTAL=$(jq '[.suites[].specs[].tests[].results[]] | length' playwright-report/results.json)
+            PASSED=$(jq '[.suites[].specs[].tests[].results[] | select(.status=="passed")] | length' playwright-report/results.json)
+            FAILED=$(jq '[.suites[].specs[].tests[].results[] | select(.status=="failed")] | length' playwright-report/results.json)
           else
             TOTAL=0
             PASSED=0
