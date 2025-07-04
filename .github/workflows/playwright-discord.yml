@@ -1,12 +1,15 @@
 name: Playwright CI with Discord Notifications
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
   pull_request:
     branches:
       - main
+    schedule:
+      - cron: '0 16 * * *'
 
 jobs:
   playwright-test:
