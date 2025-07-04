@@ -8,8 +8,8 @@ on:
   pull_request:
     branches:
       - main
-    schedule:
-      - cron: '0 16 * * *'
+  schedule:
+    - cron: '0 16 * * *'
 
 jobs:
   playwright-test:
@@ -30,8 +30,11 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
+      - name: Install jq for JSON parsing
+        run: sudo apt-get update && sudo apt-get install -y jq
+
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test --reporter=html,json
 
       - name: Upload Playwright HTML report
         if: always()
@@ -43,12 +46,24 @@ jobs:
       - name: Send Discord Notification
         if: always()
         run: |
+          # Parse Playwright JSON report
+          if [ -f playwright-report/results.json ]; then
+            TOTAL=$(jq '.suites | map(.specs) | flatten | length' playwright-report/results.json)
+            PASSED=$(jq '[.suites | map(.specs) | flatten[] | select(.tests[].results[].status=="passed")] | length' playwright-report/results.json)
+            FAILED=$(jq '[.suites | map(.specs) | flatten[] | select(.tests[].results[].status=="failed")] | length' playwright-report/results.json)
+          else
+            TOTAL=0
+            PASSED=0
+            FAILED=0
+          fi
+
           if [ "${{ job.status }}" == "success" ]; then
             STATUS="✅ Tests Passed"
           else
             STATUS="❌ Tests Failed"
           fi
+
           curl -H "Content-Type: application/json" \
             -X POST \
-            -d "{\"content\": \"${STATUS} in \`${{ github.repository }}\` on branch \`${{ github.ref_name }}\`. [View report](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})\"}" \
+            -d "{\"content\": \"${STATUS} in \`${{ github.repository }}\` on branch \`${{ github.ref_name }}\`. \n\n**Total Tests:** ${TOTAL}\n✅ Passed: ${PASSED}\n❌ Failed: ${FAILED}\n[View Workflow Report](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})\"}" \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
