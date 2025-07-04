@@ -47,9 +47,9 @@ jobs:
         if: always()
         run: |
           if [ -f playwright-report/results.json ]; then
-            TOTAL=$(jq '[.suites[].specs[].tests[].results[]] | length' playwright-report/results.json)
-            PASSED=$(jq '[.suites[].specs[].tests[].results[] | select(.status=="passed")] | length' playwright-report/results.json)
-            FAILED=$(jq '[.suites[].specs[].tests[].results[] | select(.status=="failed")] | length' playwright-report/results.json)
+            TOTAL=$(jq '[.suites[].suites[].specs[].tests[].results[]] | length' playwright-report/results.json)
+            PASSED=$(jq '[.suites[].suites[].specs[].tests[].results[] | select(.status=="passed")] | length' playwright-report/results.json)
+            FAILED=$(jq '[.suites[].suites[].specs[].tests[].results[] | select(.status=="failed" or .status=="timedOut")] | length' playwright-report/results.json)
           else
             TOTAL=0
             PASSED=0
@@ -66,3 +66,4 @@ jobs:
             -X POST \
             -d "{\"content\": \"${STATUS} in \`${{ github.repository }}\` on branch \`${{ github.ref_name }}\`. \n\n**Total Tests:** ${TOTAL}\n✅ Passed: ${PASSED}\n❌ Failed: ${FAILED}\n[View Workflow Report](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})\"}" \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
+
