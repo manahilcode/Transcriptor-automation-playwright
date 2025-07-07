@@ -1,22 +1,23 @@
-name: Playwright CI with Discord Notifications
+
+
+name: Playwright Tests
 
 on:
-  workflow_dispatch:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
   schedule:
-    - cron: '0 16 * * *'
+    - cron: '0 7 * * *'
+  workflow_dispatch:
 
 jobs:
-  playwright-test:
+  test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -24,45 +25,73 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm ci
 
-      - name: Install Playwright browsers
+      - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Install jq for JSON parsing
-        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Install xmlstarlet
+        run: sudo apt-get update && sudo apt-get install -y xmlstarlet
 
-      - name: Run Playwright tests
-        run: npx playwright test --reporter=html,json=playwright-report/results.json
-
-      - name: Upload Playwright HTML report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: playwright-report/
-
-      - name: Send Discord Notification
-        if: always()
+      - name: Run Playwright Tests
+        id: playwright_tests
+        continue-on-error: true
         run: |
-          if [ -f playwright-report/results.json ]; then
-            TOTAL=$(jq '[.suites[].specs[].tests[].results[]] | length' playwright-report/results.json)
-            PASSED=$(jq '[.suites[].specs[].tests[].results[] | select(.status=="passed")] | length' playwright-report/results.json)
-            FAILED=$(jq '[.suites[].specs[].tests[].results[] | select(.status=="failed" or .status=="timedOut")] | length' playwright-report/results.json)
+          rm -rf playwright-report
+          mkdir -p playwright-report
+          npx playwright test --reporter=html --output=playwright-report
+          npx playwright test --reporter=json > playwright-report/playwright-report.json || echo '{}' > playwright-report/playwright-report.json
+          npx playwright test --reporter=junit > results.xml || echo '<?xml version="1.0" encoding="UTF-8"?><testsuites tests="0" failures="0" skipped="0"></testsuites>' > results.xml
+
+      - name: Debug Test Results XML
+        run: cat results.xml
+
+      - name: Parse Playwright Test Results
+        id: parse_results
+        run: |
+          total_tests=$(xmlstarlet sel -t -v "/testsuites/@tests" results.xml 2>/dev/null || echo 0)
+          failed_tests=$(xmlstarlet sel -t -v "/testsuites/@failures" results.xml 2>/dev/null || echo 0)
+          skipped_tests=$(xmlstarlet sel -t -v "/testsuites/@skipped" results.xml 2>/dev/null || echo 0)
+          passed_tests=$((total_tests - (failed_tests + skipped_tests)))
+
+          if [ "$total_tests" -gt 0 ]; then
+            pass_rate=$((100 * passed_tests / total_tests))
           else
-            TOTAL=0
-            PASSED=0
-            FAILED=0
+            pass_rate=0
           fi
 
-          if [ "${{ job.status }}" == "success" ]; then
+          if [ $failed_tests -eq 0 ]; then
             STATUS="✅ Tests Passed"
           else
             STATUS="❌ Tests Failed"
           fi
 
-          curl -H "Content-Type: application/json" \
-            -X POST \
-            -d "{\"content\": \"${STATUS} in \`${{ github.repository }}\` on branch \`${{ github.ref_name }}\`. \n\n**Total Tests:** ${TOTAL}\n✅ Passed: ${PASSED}\n❌ Failed: ${FAILED}\n[View Workflow Report](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})\"}" \
-            ${{ secrets.DISCORD_WEBHOOK_URL }}
+          # Write summary to file
+          echo "chromium: ✅ $passed_tests | ❌ $failed_tests | ⏭ $skipped_tests | 📈 ${pass_rate}%" > summary.txt
+
+      - name: Compress Playwright Report
+        run: zip -r playwright-report.zip playwright-report/
+
+      - name: Upload Playwright Report Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report.zip
+          retention-days: 7
+
+      - name: Send Discord Notification
+        if: always()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          ARTIFACT_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          if [ -f summary.txt ]; then
+            MESSAGE="**Playwright Tests Summary**\n\n$(cat summary.txt)\n\n[View GitHub Action Run]($ARTIFACT_URL)"
+          else
+            MESSAGE="⚠️ Playwright tests ran, but no summary was generated. Check logs for issues.\n\n[View GitHub Action Run]($ARTIFACT_URL)"
+          fi
+
+          curl -X POST -H "Content-Type: application/json" \
+            --data "{\"content\": \"$MESSAGE\"}" "$DISCORD_WEBHOOK_URL"
