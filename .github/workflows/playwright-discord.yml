@@ -47,9 +47,9 @@ jobs:
         if: always()
         run: |
           if [ -f playwright-report/results.json ]; then
-            TOTAL=$(jq '[.suites[].suites[].specs[].tests[].results[]] | length' playwright-report/results.json)
-            PASSED=$(jq '[.suites[].suites[].specs[].tests[].results[] | select(.status=="passed")] | length' playwright-report/results.json)
-            FAILED=$(jq '[.suites[].suites[].specs[].tests[].results[] | select(.status=="failed" or .status=="timedOut")] | length' playwright-report/results.json)
+            TOTAL=$(jq '[.suites[].specs[].tests[].results[]] | length' playwright-report/results.json)
+            PASSED=$(jq '[.suites[].specs[].tests[].results[] | select(.status=="passed")] | length' playwright-report/results.json)
+            FAILED=$(jq '[.suites[].specs[].tests[].results[] | select(.status=="failed" or .status=="timedOut")] | length' playwright-report/results.json)
           else
             TOTAL=0
             PASSED=0
