@@ -41,8 +41,9 @@ jobs:
           rm -rf playwright-report
           mkdir -p playwright-report
           npx playwright test --reporter=html --output=playwright-report
-          npx playwright test --reporter=json > playwright-report/playwright-report.json || echo '{}' > playwright-report/playwright-report.json
-          npx playwright test --reporter=junit > results.xml || echo '<?xml version="1.0" encoding="UTF-8"?><testsuites tests="0" failures="0" skipped="0"></testsuites>' > results.xml
+          npx playwright test --reporter=json=playwright-report/playwright-report.json
+          npx playwright test --reporter=junit=results.xml
+
 
       - name: Debug Test Results XML
         run: cat results.xml
