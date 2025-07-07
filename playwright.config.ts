@@ -5,7 +5,7 @@ export default defineConfig({
   //timeout: 30000,      // Max time for each test
   retries: 1,          // Retry on failure
   use: {
-    headless: true,            // Run browser in headless mode
+    headless: false,            // Run browser in headless mode
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },

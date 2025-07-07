@@ -34,7 +34,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: Run Playwright tests
-        run: npx playwright test --reporter=html,json
+        run: npx playwright test --reporter=html,json=playwright-report/results.json
 
       - name: Upload Playwright HTML report
         if: always()
@@ -66,4 +66,3 @@ jobs:
             -X POST \
             -d "{\"content\": \"${STATUS} in \`${{ github.repository }}\` on branch \`${{ github.ref_name }}\`. \n\n**Total Tests:** ${TOTAL}\n✅ Passed: ${PASSED}\n❌ Failed: ${FAILED}\n[View Workflow Report](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})\"}" \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
-
