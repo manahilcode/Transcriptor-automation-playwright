@@ -1,5 +1,3 @@
-
-
 name: Playwright Tests
 
 on:
@@ -39,11 +37,7 @@ jobs:
         continue-on-error: true
         run: |
           rm -rf playwright-report
-          mkdir -p playwright-report
-          npx playwright test --reporter=html --output=playwright-report
-          npx playwright test --reporter=json=playwright-report/playwright-report.json
-          npx playwright test --reporter=junit=results.xml
-
+          npx playwright test
 
       - name: Debug Test Results XML
         run: cat results.xml
@@ -68,7 +62,6 @@ jobs:
             STATUS="❌ Tests Failed"
           fi
 
-          # Write summary to file
           echo "chromium: ✅ $passed_tests | ❌ $failed_tests | ⏭ $skipped_tests | 📈 ${pass_rate}%" > summary.txt
 
       - name: Compress Playwright Report
