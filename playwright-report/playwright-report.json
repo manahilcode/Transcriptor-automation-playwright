@@ -1,0 +1,144 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\TECHNIFI\\Desktop\\Transcriptor\\playwright.config.ts",
+    "rootDir": "C:/Users/TECHNIFI/Desktop/Transcriptor/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "playwright-report/playwright-report.json"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "results.xml"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "C:/Users/TECHNIFI/Desktop/Transcriptor/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "C:/Users/TECHNIFI/Desktop/Transcriptor/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "3way",
+    "version": "1.52.0",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "chrome.spec.ts",
+      "file": "chrome.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "launch Chrome extension and open popup UI",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 35055,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                    }
+                  ],
+                  "stdout": [
+                    {
+                      "text": "Browser console [error]: Access to fetch at 'https://39eq9ico.api.sanity.io/v2025-03-12/data/live/events/production?tag=next-loader.live' from origin 'https://transcripter-webapp-v2.vercel.app' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.\n"
+                    },
+                    {
+                      "text": "Browser console [error]: Failed to load resource: net::ERR_FAILED\n"
+                    },
+                    {
+                      "text": "Browser console [warning]: Sanity Live is unable to connect to the Sanity API as the current origin - https://transcripter-webapp-v2.vercel.app - is not in the list of allowed CORS origins for this Sanity Project. Add it here: https://sanity.io/manage/project/39eq9ico/api?cors=add&origin=https%3A%2F%2Ftranscripter-webapp-v2.vercel.app\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "steps": [
+                    {
+                      "title": "Logging into the application",
+                      "duration": -1
+                    }
+                  ],
+                  "startTime": "2025-07-08T09:30:34.454Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "fd8313daad85f7d7cc59-94cb7fd538c9966fb05a",
+          "file": "chrome.spec.ts",
+          "line": 15,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-07-08T09:30:32.038Z",
+    "duration": 37799.722999999765,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

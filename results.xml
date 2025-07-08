@@ -1,0 +1,18 @@
+<testsuites id="" name="" tests="1" failures="1" skipped="0" errors="0" time="37.799722999999766">
+<testsuite name="chrome.spec.ts" timestamp="2025-07-08T09:30:33.274Z" hostname="" tests="1" failures="1" skipped="0" time="35.055" errors="0">
+<testcase name="launch Chrome extension and open popup UI" classname="chrome.spec.ts" time="35.055">
+<failure message="chrome.spec.ts:15:5 launch Chrome extension and open popup UI" type="FAILURE">
+<![CDATA[  chrome.spec.ts:15:5 › launch Chrome extension and open popup UI ──────────────────────────────────
+
+    Test timeout of 30000ms exceeded.
+]]>
+</failure>
+<system-out>
+<![CDATA[Browser console [error]: Access to fetch at 'https://39eq9ico.api.sanity.io/v2025-03-12/data/live/events/production?tag=next-loader.live' from origin 'https://transcripter-webapp-v2.vercel.app' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+Browser console [error]: Failed to load resource: net::ERR_FAILED
+Browser console [warning]: Sanity Live is unable to connect to the Sanity API as the current origin - https://transcripter-webapp-v2.vercel.app - is not in the list of allowed CORS origins for this Sanity Project. Add it here: https://sanity.io/manage/project/39eq9ico/api?cors=add&origin=https%3A%2F%2Ftranscripter-webapp-v2.vercel.app
+]]>
+</system-out>
+</testcase>
+</testsuite>
+</testsuites>

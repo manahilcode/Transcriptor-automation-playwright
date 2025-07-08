@@ -1,3 +1,4 @@
+
 module.exports = {
-    BASE_URL: 'https://transcripter-webapp-v2.vercel.app',
-  };
+  BASE_URL: "https://transcripter-webapp-v2.vercel.app",
+};
