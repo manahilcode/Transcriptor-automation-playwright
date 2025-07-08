@@ -3,35 +3,20 @@
 // import path from 'path';
 // import fs from 'fs';
 // import LoginSteps from '../src/login';
+// import { popupSelectors } from '../utils/selectors/chrome-selector';
+// import {
+//   extensionPath,
+//   userDataDir,
+//   validateExtensionPath,
+//   cleanupUserDataDir,
+//   launchContext,
+// } from '../utils/extension-utils';
 
 // test('launch Chrome extension and open popup UI', async () => {
-//   const extensionPath = path.resolve(
-//     'C:/Users/TECHNIFI/AppData/Local/Google/Chrome/User Data/Profile 5/Extensions/hpncmacppkomomhljjmldddkmpefankd/1.0.1_0'
-//   );
-//   const userDataDir = path.resolve('tmp-user-data-dir');
+//   await validateExtensionPath();
+//   cleanupUserDataDir();
 
-//   // Validate manifest
-//   if (!fs.existsSync(path.join(extensionPath, 'manifest.json'))) {
-//     throw new Error(`Extension manifest not found at: ${extensionPath}`);
-//   }
-
-//   if (!fs.existsSync(extensionPath)) {
-//     throw new Error(`Extension path does not exist: ${extensionPath}`);
-//   }
-
-//   if (fs.existsSync(userDataDir)) {
-//     fs.rmSync(userDataDir, { recursive: true, force: true });
-//   }
-
-//   // Launch Chrome with the extension
-//   const context = await chromium.launchPersistentContext(userDataDir, {
-//     headless: false,
-//     args: [
-//       `--disable-extensions-except=${extensionPath}`,
-//       `--load-extension=${extensionPath}`,
-//     ],
-//     executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe', // adjust if needed
-//   });
+//   const context = await launchContext();
 
 //   try {
 //     // normal test page
@@ -78,10 +63,10 @@
 //     console.log(`✅ Extension popup opened at ${popupUrl}`);
 
 //     // interact with the popup
-//     await popupPage.locator('//div//input[@type="text"]').fill(
+//     await popupPage.locator(popupSelectors.input).fill(
 //       'https://youtu.be/DHjqpvDnNGE?si=tP1wN5wiQ0AXht-x'
 //     );
-//     await popupPage.locator('//img[@alt="Sound Scribe logo"]').click();
+//       await popupPage.locator(popupSelectors.logoButton).click();
 //     await popupPage.waitForTimeout(5000); 
 
 //     console.log(' Interactions with popup completed');
@@ -91,5 +76,5 @@
 //     throw error;
 //   } finally {
 //     await context.close();
-//   }
+//   }  
 // });
