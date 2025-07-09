@@ -29,24 +29,27 @@ jobs:
       - name: Install Playwright Chromium 
         run: npx playwright install chromium
 
+
+  
+      - name: Install xmlstarlet
+        run: sudo apt-get update && sudo apt-get install -y xmlstarlet
+
       - name: Run Playwright Tests
         id: playwright_tests
         continue-on-error: true
         run: |
           rm -rf playwright-report
-          npx playwright test --reporter=junit
+          npx playwright test
+
+      - name: Debug Test Results XML
+        run: cat results.xml
 
       - name: Parse Playwright Test Results
         id: parse_results
         run: |
-          if [ ! -f results.xml ]; then
-            echo "No test results found, creating dummy file"
-            echo '<?xml version="1.0"?><testsuites tests="0" failures="0" skipped="0"></testsuites>' > results.xml
-          fi
-
-          total_tests=$(xmllint --xpath "string(/testsuites/@tests)" results.xml 2>/dev/null || echo 0)
-          failed_tests=$(xmllint --xpath "string(/testsuites/@failures)" results.xml 2>/dev/null || echo 0)
-          skipped_tests=$(xmllint --xpath "string(/testsuites/@skipped)" results.xml 2>/dev/null || echo 0)
+          total_tests=$(xmlstarlet sel -t -v "/testsuites/@tests" results.xml 2>/dev/null || echo 0)
+          failed_tests=$(xmlstarlet sel -t -v "/testsuites/@failures" results.xml 2>/dev/null || echo 0)
+          skipped_tests=$(xmlstarlet sel -t -v "/testsuites/@skipped" results.xml 2>/dev/null || echo 0)
           passed_tests=$((total_tests - (failed_tests + skipped_tests)))
 
           if [ "$total_tests" -gt 0 ]; then
@@ -55,7 +58,7 @@ jobs:
             pass_rate=0
           fi
 
-          if [ "$failed_tests" -eq 0 ]; then
+          if [ $failed_tests -eq 0 ]; then
             STATUS="✅ Tests Passed"
           else
             STATUS="❌ Tests Failed"
@@ -63,11 +66,14 @@ jobs:
 
           echo "chromium: ✅ $passed_tests | ❌ $failed_tests | ⏭ $skipped_tests | 📈 ${pass_rate}%" > summary.txt
 
+      - name: Compress Playwright Report
+        run: zip -r playwright-report.zip playwright-report/
+
       - name: Upload Playwright Report Artifact
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          path: playwright-report/
+          path: playwright-report.zip
           retention-days: 7
 
       - name: Send Discord Notification
