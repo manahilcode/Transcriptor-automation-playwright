@@ -10,6 +10,7 @@ export default class mytranscription {
   ***********************************************************************/
   public async menu() {
     await test.step(`click on menu`, async () => {
+      console.log(" Clicking on 'My Transcription' menu...");
       await this.page.locator(selectors.mytranscription).click();
     });
   }
@@ -21,6 +22,7 @@ export default class mytranscription {
   ***********************************************************************/
   public async folder() {
     await test.step(`manage folder`, async () => {
+      console.log("Navigating to folder management...");
       await this.page.locator(selectors.folders).click();
 
       let folderName = "automationfolder";
@@ -31,12 +33,14 @@ export default class mytranscription {
       const folderCount = await this.page.locator(selectors.createfolder).count();
 
       if (folderCount > 0) {
+        console.log(" Clicking on 'Create Folder' button...");
         await this.page.locator(selectors.createfolder).click();
       } else {
+        console.log(" Creating first folder...");
         await this.page.locator("//button[normalize-space()='Create Your First Folder']").click();
       }
 
-      // First attempt
+      console.log(` Trying to create folder: "${folderName}"`);
       await inputField.fill(folderName);
       await createBtn.click();
 
@@ -48,12 +52,14 @@ export default class mytranscription {
 
       if (isDuplicate) {
         folderName = `auto_${generateTimestamp()}`;
+        console.log(`Duplicate folder found. Renaming to: "${folderName}"`);
         await inputField.fill(folderName);
         await createBtn.click();
       }
 
       // Rename with timestamp
       const renamed = `renamed_${generateTimestamp()}`;
+      console.log(` Renaming folder to: "${renamed}"`);
       await this.page.locator(selectors.menubutton).click();
       await this.page.locator(selectors.rename).click();
       const renameInput = this.page.locator(selectors.inputreanme);
@@ -62,10 +68,12 @@ export default class mytranscription {
       await this.page.locator(selectors.renamebutton).click();
 
       // Delete folder
+      console.log("Deleting the folder...");
       await this.page.locator(selectors.menubutton).click();
       await this.page.locator(selectors.delete).click();
       await this.page.locator(selectors.deletebutton).click();
       await this.page.waitForTimeout(500);
+      console.log("Folder deleted.");
     });
   }
 
@@ -76,10 +84,12 @@ export default class mytranscription {
   ***********************************************************************/
   public async bookmark() {
     await test.step(`bookmark transcriptions`, async () => {
+      console.log(" Bookmarking a transcription...");
       await this.page.locator(selectors.alltarnscription).click();
       await this.page.locator(selectors.bookmark).click();
       await this.page.locator(selectors.bookmarktab).click();
       await this.page.waitForTimeout(500);
+      console.log(" Verified in bookmark tab. Returning to all transcriptions...");
       await this.page.locator(selectors.alltarnscription).click();
     });
   }
