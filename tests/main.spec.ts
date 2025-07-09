@@ -1,39 +1,33 @@
-// import { test } from "@playwright/test";
-// import LoginSteps from "../src/login";
-// import Home from "../src/home";
-// import MyTranscription from "../src/mytranscription";
-// import Transcription from "../src/transcription";
-// const { BASE_URL } = require("../utils/constants");
+import { test } from "@playwright/test";
+import LoginSteps from "../src/login";
+import Home from "../src/home";
+import MyTranscription from "../src/mytranscription";
+import Transcription from "../src/transcription";
+const { BASE_URL } = require("../utils/constants");
 
-// test.describe("Full flow", () => {
-//   test("should perform login, verify home, and use mytranscription", async ({ page }) => {
-//      test.setTimeout(80000); 
+test.describe("Full Flow Suite", () => {
+  test.beforeEach(async ({ page }) => {
+     test.setTimeout(80000); 
+    await page.goto(BASE_URL);
+    const loginSteps = new LoginSteps(page);
+    await loginSteps.login();
+  });
 
-//     // go to the site
-//     await page.goto(BASE_URL);
+  test.only("TC01 - Verify Home Page", async ({ page }) => {
+    const homepage = new Home(page);
+    await homepage.verifytext();
+    await homepage.scroll();
+  });
 
-   
-//     const loginSteps = new LoginSteps(page);
-//     await loginSteps.login();
+  test("TC02 - Use My Transcription Page", async ({ page }) => {
+    const transcriptionPage = new MyTranscription(page);
+    await transcriptionPage.menu();
+    await transcriptionPage.folder();
+    await transcriptionPage.bookmark();
+  });
 
-   
-//     const homepage = new Home(page);
-//     await homepage.verifytext();
-//     await homepage.scroll();
-
-   
-//     const transcription = new MyTranscription(page);
-//     await transcription.menu();
-//     await transcription.folder();
-//     await transcription.bookmark();
-
-//     const Transcriptions = new Transcription(page);
-//     await Transcriptions.transcribe();
-
-
-
-//   });
-
-// }
-
-// );
+  test("TC03 - Use Transcription Feature", async ({ page }) => {
+    const transcription = new Transcription(page);
+    await transcription.transcribe();
+  });
+});

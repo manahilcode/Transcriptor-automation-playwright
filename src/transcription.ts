@@ -1,6 +1,7 @@
 import test, { Page } from "@playwright/test";
 import { selectors } from "../utils/selectors/transcription";
 
+
 export default class Transcription {
     constructor(private page: Page) {}
 
@@ -13,6 +14,7 @@ export default class Transcription {
     public async transcribe() {
         await test.step(`transcribe the chat into multiple languages`, async () => {
             // Click on the transcription area
+            await this.page.locator(selectors.mytranscription).click();
             await this.page.locator(selectors.test1).click();
             await this.page.waitForTimeout(1000);
 

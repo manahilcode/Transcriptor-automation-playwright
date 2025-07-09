@@ -1,6 +1,14 @@
-<testsuites id="" name="" tests="1" failures="0" skipped="0" errors="0" time="20.508784999999918">
-<testsuite name="test.main.spec.ts" timestamp="2025-07-09T08:17:06.506Z" hostname="" tests="1" failures="0" skipped="0" time="17.497" errors="0">
-<testcase name="Full Flow Suite › TC02 - Use My Transcription Page" classname="test.main.spec.ts" time="17.497">
+<testsuites id="" name="" tests="1" failures="0" skipped="0" errors="0" time="48.289013999999966">
+<testsuite name="test.main.spec.ts" timestamp="2025-07-09T09:38:40.458Z" hostname="" tests="1" failures="0" skipped="0" time="45.708" errors="0">
+<testcase name="Full Flow Suite › TC03 - Use Transcription Feature" classname="test.main.spec.ts" time="45.708">
+<system-out>
+<![CDATA[Clicking on Language dropdown...
+Waiting for French option...
+Clicking on French option...
+Waiting for French translation to complete...
+French translation should be complete, proceeding to generate...
+]]>
+</system-out>
 </testcase>
 </testsuite>
 </testsuites>
