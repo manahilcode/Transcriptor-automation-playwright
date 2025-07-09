@@ -13,6 +13,6 @@ export const selectors = {
     delete:'(//div[@role="menuitem"])[2]',
     deletebutton:'//button[text()="Delete"]', //2
     alltarnscription: '//button[text()="All Transcriptions"]',
-    bookmark:'//button[@class="flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"]',  //4
+    bookmark:`//div//div//div//div[1]//a[1]//button[1]//*[name()='svg']`,  //4
     bookmarktab: '//button[text()="Bookmarks"]', //4
 }

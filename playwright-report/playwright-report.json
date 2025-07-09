@@ -66,79 +66,70 @@
   },
   "suites": [
     {
-      "title": "chrome.spec.ts",
-      "file": "chrome.spec.ts",
+      "title": "test.main.spec.ts",
+      "file": "test.main.spec.ts",
       "column": 0,
       "line": 0,
-      "specs": [
+      "specs": [],
+      "suites": [
         {
-          "title": "launch Chrome extension and open popup UI",
-          "ok": false,
-          "tags": [],
-          "tests": [
+          "title": "Full Flow Suite",
+          "file": "test.main.spec.ts",
+          "line": 8,
+          "column": 6,
+          "specs": [
             {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "",
-              "projectName": "",
-              "results": [
+              "title": "TC01 - Verify Home Page",
+              "ok": true,
+              "tags": [],
+              "tests": [
                 {
-                  "workerIndex": 5,
-                  "parallelIndex": 0,
-                  "status": "timedOut",
-                  "duration": 35055,
-                  "error": {
-                    "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                    "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                  },
-                  "errors": [
-                    {
-                      "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                    }
-                  ],
-                  "stdout": [
-                    {
-                      "text": "Browser console [error]: Access to fetch at 'https://39eq9ico.api.sanity.io/v2025-03-12/data/live/events/production?tag=next-loader.live' from origin 'https://transcripter-webapp-v2.vercel.app' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.\n"
-                    },
-                    {
-                      "text": "Browser console [error]: Failed to load resource: net::ERR_FAILED\n"
-                    },
-                    {
-                      "text": "Browser console [warning]: Sanity Live is unable to connect to the Sanity API as the current origin - https://transcripter-webapp-v2.vercel.app - is not in the list of allowed CORS origins for this Sanity Project. Add it here: https://sanity.io/manage/project/39eq9ico/api?cors=add&origin=https%3A%2F%2Ftranscripter-webapp-v2.vercel.app\n"
-                    }
-                  ],
-                  "stderr": [],
-                  "retry": 0,
-                  "steps": [
-                    {
-                      "title": "Logging into the application",
-                      "duration": -1
-                    }
-                  ],
-                  "startTime": "2025-07-08T09:30:34.454Z",
+                  "timeout": 30000,
                   "annotations": [],
-                  "attachments": []
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 14805,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "scroll slowly to the bottom of the page",
+                          "duration": 5508
+                        }
+                      ],
+                      "startTime": "2025-07-09T08:05:30.041Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
                 }
               ],
-              "status": "unexpected"
+              "id": "bb4cc28f6763c1b3a418-d771f891d1f9b3dcbdca",
+              "file": "test.main.spec.ts",
+              "line": 15,
+              "column": 8
             }
-          ],
-          "id": "fd8313daad85f7d7cc59-94cb7fd538c9966fb05a",
-          "file": "chrome.spec.ts",
-          "line": 15,
-          "column": 5
+          ]
         }
       ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-07-08T09:30:32.038Z",
-    "duration": 37799.722999999765,
-    "expected": 0,
+    "startTime": "2025-07-09T08:05:27.593Z",
+    "duration": 17898.496000000003,
+    "expected": 1,
     "skipped": 0,
-    "unexpected": 1,
+    "unexpected": 0,
     "flaky": 0
   }
 }
