@@ -6,26 +6,31 @@ export default class Home {
 
   /**********************************************************************
    * Verify Heading Text
-   * Description: This function will verify the heading text of the
-   * homepage matches the expected value.
+   * Description: This function verifies the heading text on the homepage.
    ***********************************************************************/
   public async verifytext() {
-    const heading = this.page.locator(selectors.text);
-    const expectedHeading = "Transcribe, Translate & Summarize";
-    
+    await test.step(`verify heading text on homepage`, async () => {
+      console.log(" Verifying heading text...");
+
+      const heading = this.page.locator(selectors.text);
+      const expectedHeading = "Transcribe, Translate & Summarize";
+
+      
+    });
   }
 
   /**********************************************************************
    * Scroll to Bottom
-   * Description: This function will scroll slowly to the bottom of the page
-   * to trigger any lazy-loaded content.
+   * Description: This function scrolls to the bottom of the page slowly
+   * to trigger lazy-loaded content.
    ***********************************************************************/
   public async scroll() {
     await test.step(`scroll slowly to the bottom of the page`, async () => {
+      console.log(" Scrolling to bottom of the page...");
       await this.page.evaluate(async () => {
         await new Promise<void>((resolve) => {
-          const distance = 100; // pixels to scroll each time
-          const delay = 100;    // milliseconds between scrolls
+          const distance = 100; // pixels per scroll
+          const delay = 100;    // ms between scrolls
           const timer = setInterval(() => {
             const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
             window.scrollBy(0, distance);
@@ -36,6 +41,7 @@ export default class Home {
           }, delay);
         });
       });
+      console.log(" Reached bottom of the page.");
     });
   }
 }
