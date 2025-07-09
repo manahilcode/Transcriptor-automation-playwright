@@ -1,6 +1,6 @@
-<testsuites id="" name="" tests="1" failures="0" skipped="0" errors="0" time="17.898496">
-<testsuite name="test.main.spec.ts" timestamp="2025-07-09T08:05:28.776Z" hostname="" tests="1" failures="0" skipped="0" time="14.805" errors="0">
-<testcase name="Full Flow Suite › TC01 - Verify Home Page" classname="test.main.spec.ts" time="14.805">
+<testsuites id="" name="" tests="1" failures="0" skipped="0" errors="0" time="20.508784999999918">
+<testsuite name="test.main.spec.ts" timestamp="2025-07-09T08:17:06.506Z" hostname="" tests="1" failures="0" skipped="0" time="17.497" errors="0">
+<testcase name="Full Flow Suite › TC02 - Use My Transcription Page" classname="test.main.spec.ts" time="17.497">
 </testcase>
 </testsuite>
 </testsuites>
