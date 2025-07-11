@@ -1,4 +1,5 @@
 import { test } from "@playwright/test";
+import percySnapshot from '@percy/playwright'; // 👈 Percy import
 import LoginSteps from "../src/login";
 import Home from "../src/home";
 import MyTranscription from "../src/mytranscription";
@@ -10,7 +11,7 @@ const { BASE_URL } = require("../utils/constants");
 test.describe("Full Flow Suite", () => {
   test.setTimeout(80000);
 
-  test.skip("TC01 - Launch Chrome extension and use popup", async () => {
+  test("TC01 - Launch Chrome extension and use popup", async () => {
     const { context } = await setupTestEnvironment();
 
     try {
@@ -20,7 +21,7 @@ test.describe("Full Flow Suite", () => {
     }
   });
 
-  test("TC02 - Verify Home Page", async ({ page }) => {
+  test.only("TC02 - Verify Home Page", async ({ page }) => {
     await page.goto(BASE_URL);
     const loginSteps = new LoginSteps(page);
     await loginSteps.login();
@@ -28,6 +29,8 @@ test.describe("Full Flow Suite", () => {
     const homepage = new Home(page);
     await homepage.verifytext();
     await homepage.scroll();
+
+    await percySnapshot(page, 'TC02 - Home Page'); // 👈 Percy snapshot
   });
 
   test("TC03 - Use My Transcription Page", async ({ page }) => {
@@ -39,6 +42,8 @@ test.describe("Full Flow Suite", () => {
     await transcriptionPage.menu();
     await transcriptionPage.folder();
     await transcriptionPage.bookmark();
+
+    await percySnapshot(page, 'TC03 - My Transcription Page'); // 👈 Percy snapshot
   });
 
   test("TC04 - Use Transcription Feature", async ({ page }) => {
@@ -48,5 +53,7 @@ test.describe("Full Flow Suite", () => {
 
     const transcription = new Transcription(page);
     await transcription.transcribe();
+
+    await percySnapshot(page, 'TC04 - Transcription Page'); // 👈 Percy snapshot
   });
 });
