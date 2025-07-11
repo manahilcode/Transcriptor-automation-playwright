@@ -1,6 +1,8 @@
 node_modules/
 test-results/
 playwright-report/
+results.xml
+tmp-user-data-dir/
 
 
 
